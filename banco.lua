@@ -19,8 +19,8 @@ function generate_account_num(accounts)
 end
 
 
--- Função auxiliar para validar um valor numérico digitado
-function validate_number(number)
+-- Função auxiliar para validar um valor financeiro digitado
+function validate_amount(number)
   if number == nil then
     return false
   elseif number > 0 then
@@ -41,7 +41,7 @@ end
 function io_account_deposit(account)
   local amount = tonumber(prompt('Valor do depósito: '))
 
-  if not validate_number(amount) then
+  if not validate_amount(amount) then
     print('Valor inválido ou negativo.')
     return
   end
@@ -56,7 +56,7 @@ end
 function io_account_withdraw(account)
   local amount = tonumber(prompt('Valor do saque: '))
 
-  if not validate_number(amount) then
+  if not validate_amount(amount) then
     print('Valor inválido ou negativo.')
     return
   end
