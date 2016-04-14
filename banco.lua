@@ -36,6 +36,7 @@ function io_account_balance(account)
   print('Seu saldo é: ' .. account.balance)
 end
 
+
 -- Pede o valor do depósito 
 -- Realiza o depósito na conta dada, se possível
 function io_account_deposit(account)
@@ -58,6 +59,11 @@ function io_account_withdraw(account)
 
   if not validate_amount(amount) then
     print('Valor inválido ou negativo.')
+    return
+  end
+
+  if amount > account.balance then
+    print('Valor superior ao seu saldo. Saque não realizado.')
     return
   end
   
@@ -167,8 +173,6 @@ end
 -- Chama a função correspondente à opção escolhida
 -- O menu se repete até o usuário escolher sair
 function main()
-  math.randomseed(os.time())
-
   local accounts = {}
 
   print('Bem-vindo ao LuaBank.')
