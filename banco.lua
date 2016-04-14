@@ -7,6 +7,8 @@
 
 
 -- Função auxiliar para mostrar uma pergunta e ler o input do usuário
+-- PRE: o texto a ser exibido está em `text`
+-- POS: o texto é exibido, retorna o input do usuário
 function prompt (text)
   print(text)
   return io.read()
@@ -14,12 +16,17 @@ end
 
 
 -- Função auxiliar para gerar um número de conta válido
+-- PRE: as contas bancárias estão presentes em `accounts`
+-- POS: retorna um numero valido de conta bancária não utilizado
 function generate_account_num(accounts)
   return #accounts + 1
 end
 
 
 -- Função auxiliar para validar um valor financeiro digitado
+-- PRE: um valor numérico (ou nil) será fornecido em `number`
+-- POS: se o valor for numérico e maior que zero, retorna true;
+--      senão, retorna false
 function validate_amount(number)
   if number == nil then
     return false
@@ -32,6 +39,8 @@ end
 
 
 -- Mostra o saldo da conta dada
+-- PRE: a conta bancária em que será consultado o saldo é `account`
+-- POS: o saldo da conta aparecerá na tela
 function io_account_balance(account)
   print('Seu saldo é: ' .. account.balance)
 end
@@ -39,6 +48,9 @@ end
 
 -- Pede o valor do depósito 
 -- Realiza o depósito na conta dada, se possível
+-- PRE: a conta bancária em que será realizado o depósito é `account`
+-- POS: dado que o usuário digita um valor válido e positivo para ser 
+--      depositado na conta, o saldo da conta será aumentado de tal valor
 function io_account_deposit(account)
   local amount = tonumber(prompt('Valor do depósito: '))
 
@@ -54,6 +66,10 @@ end
 
 -- Pede o valor do saque
 -- Realiza o saque na conta dada, se possível
+-- PRE: a conta bancária de que será realizado o saque é `account`
+-- PÓS: dado que o usuário digita um valor válido e positivo para ser 
+--      sacado da conta, e o saldo seja maior ou igual a esse valor,
+--      o saldo da conta será diminuído de tal valor
 function io_account_withdraw(account)
   local amount = tonumber(prompt('Valor do saque: '))
 
@@ -76,6 +92,10 @@ end
 -- Mostra o menu da conta
 -- Chama a função correspondente à opção escolhida
 -- O menu se repete até o usuário escolher sair
+-- PRE: a conta bancária de que será realizado o saque é `account`
+-- PÓS: dependendo das operações realizadas pelo cliente, o saldo
+--      da conta pode estar diferente, mas nunca negativo.
+--      os outros dados da conta (nome, CPF e senha) não serão alterados
 function io_account(account)
   while true do
     print()
@@ -102,6 +122,10 @@ end
 
 -- Pede os dados da conta do usuário
 -- Se válido, chama a função de interação com a conta
+-- PRE: as contas bancárias estão presentes em `accounts`
+-- POS: dado que a conta de número fornecido pelo usuário tem como senha
+--      a senha também fornecida pelo usuário, retorna tal conta.
+--      senão, retorna nil
 function io_access_account (accounts)
   print()
   print('*** Acessar conta ***')
@@ -123,9 +147,12 @@ function io_access_account (accounts)
 end
 
 
--- Pede os dados da conta do favorecido
--- Se válido, pede o valor do depósito
--- Se válido, realiza o depósito
+-- Pede os dados da conta do favorecido e chama a função de depósito
+-- PRE: as contas bancárias estão presentes em `accounts`
+-- POS: dado que a conta de número fornecido pelo usuário tem registrado
+--      o CPF também fornecido pelo usuário, e dado que o usuário digita
+--      um valor válido e positivo para ser depositado na conta, o saldo da
+--      conta será aumentado de tal valor
 function io_deposit (accounts)
   print()
   print('*** Depositar em conta de terceiro ***')
@@ -134,20 +161,23 @@ function io_deposit (accounts)
   local account = accounts[account_num]
   if account == nil then
     print('Conta não existe.')
-    return
+    return nil
   end
 
   local cpf = prompt('CPF do favorecido: ')
   if account.cpf ~= cpf then
     print('CPF inválido.')
-    return
+    return nil
   end
 
-  io_account_deposit(account)
+  return account
 end
 
 
 -- Pede os dados cadastrais ao usuário e registra sua nova conta
+-- PRE: as contas bancárias estão presentes em `accounts`
+-- POS: uma nova conta bancária, com os dados fornecidos pelo usuário,
+--      também estará presente em `accounts`
 function io_new_account(accounts)
   print()
   print('*** Abrir nova conta ***')
@@ -186,7 +216,10 @@ function main()
     print('X) Sair')
     local option = prompt('Selecione uma das opções: '):upper()
     if option == 'A' then
-      io_access_account(accounts)
+      local account = io_access_account(accounts)
+      if account then
+        io_account(account)
+      end
     elseif option == 'D' then
       io_deposit(accounts)
     elseif option == 'N' then
