@@ -7,7 +7,7 @@ Este é um programa ilustrativo do funcionamento de um caixa eletrônico bancár
 Os usuários podem abrir novas contas, depositar em contas de terceiro, e acessar sua própria conta
 ao inserir corretamente sua senha. Em sua conta, podem ver seu saldo, depositar e sacar.
 
-![diagram](/diagram.png)
+![diagram](https://cloud.githubusercontent.com/assets/3977115/14544253/9924df14-026e-11e6-900c-f29ff6311cf9.png)
 
 
 ## Livro Diário
