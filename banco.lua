@@ -9,7 +9,7 @@
 -- Função auxiliar para mostrar uma pergunta e ler o input do usuário
 -- PRE: o texto a ser exibido está em `text`
 -- POS: o texto é exibido, retorna o input do usuário
-function prompt (text)
+function prompt(text)
   print(text)
   return io.read()
 end
@@ -126,7 +126,7 @@ end
 -- POS: dado que a conta de número fornecido pelo usuário tem como senha
 --      a senha também fornecida pelo usuário, retorna tal conta.
 --      senão, retorna nil
-function io_access_account (accounts)
+function io_login(accounts)
   print()
   print('*** Acessar conta ***')
   local account_num = tonumber(prompt('Numero da conta: ', '*number'))
@@ -134,16 +134,16 @@ function io_access_account (accounts)
   local account = accounts[account_num]
   if account == nil then
     print('Conta não existe.')
-    return
+    return nil 
   end
 
   local pw = prompt('Senha:')
   if account.pw ~= pw then
     print('Senha inválida.')
-    return
+    return nil
   end
 
-  io_account(account)
+  return account
 end
 
 
@@ -153,7 +153,7 @@ end
 --      o CPF também fornecido pelo usuário, e dado que o usuário digita
 --      um valor válido e positivo para ser depositado na conta, o saldo da
 --      conta será aumentado de tal valor
-function io_deposit (accounts)
+function io_deposit(accounts)
   print()
   print('*** Depositar em conta de terceiro ***')
   local account_num = tonumber(prompt('Numero da conta: '))
@@ -161,16 +161,16 @@ function io_deposit (accounts)
   local account = accounts[account_num]
   if account == nil then
     print('Conta não existe.')
-    return nil
+    return
   end
 
   local cpf = prompt('CPF do favorecido: ')
   if account.cpf ~= cpf then
     print('CPF inválido.')
-    return nil
+    return
   end
 
-  return account
+  io_account_deposit(account)
 end
 
 
@@ -216,7 +216,7 @@ function main()
     print('X) Sair')
     local option = prompt('Selecione uma das opções: '):upper()
     if option == 'A' then
-      local account = io_access_account(accounts)
+      local account = io_login(accounts)
       if account then
         io_account(account)
       end
