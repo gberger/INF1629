@@ -19,40 +19,50 @@ function generate_account_num(accounts)
 end
 
 
+-- Função auxiliar para validar um valor numérico digitado
+function validate_number(number)
+  if number == nil then
+    return false
+  elseif number > 0 then
+    return true
+  else
+    return false
+  end
+end
+
+
 -- Mostra o saldo da conta dada
 function io_account_balance(account)
   print('Seu saldo é: ' .. account.balance)
 end
 
--- Pede o valor do depósito de um usuário em sua própria conta
--- Realiza o depósito, se possível
+-- Pede o valor do depósito 
+-- Realiza o depósito na conta dada, se possível
 function io_account_deposit(account)
   local amount = tonumber(prompt('Valor do depósito: '))
 
-  if amount is nil then
-    print('O valor deve ser numérico.')
-  elseif amount > 0 then
-    account.balance = account.balance + amount
-    print('Depósito realizado.')
-  else
-    print('O valor deve ser positivo.')
+  if not validate_number(amount) then
+    print('Valor inválido ou negativo.')
+    return
   end
+
+  account.balance = account.balance + amount
+  print('Depósito realizado.')
 end
 
 
--- Pede o valor do saque de um usuário em sua própria conta
--- Realiza o saque, se possível
+-- Pede o valor do saque
+-- Realiza o saque na conta dada, se possível
 function io_account_withdraw(account)
   local amount = tonumber(prompt('Valor do saque: '))
 
-  if amount is nil then
-    print('O valor deve ser numérico.')
-  elseif amount > 0 then
-    account.balance = account.balance - amount
-    print('Saque realizado.')
-  else
-    print('O valor deve ser positivo.')
+  if not validate_number(amount) then
+    print('Valor inválido ou negativo.')
+    return
   end
+  
+  account.balance = account.balance - amount
+  print('Saque realizado.')
 end
 
 
@@ -92,17 +102,18 @@ function io_access_account (accounts)
   local account_num = tonumber(prompt('Numero da conta: ', '*number'))
 
   local account = accounts[account_num]
-  if account ~= nil then
-    local pw = prompt('Senha:')
-
-    if account.pw == pw then
-      io_account(account)
-    else
-      print('Senha inválida.')
-    end
-  else
+  if account == nil then
     print('Conta não existe.')
+    return
   end
+
+  local pw = prompt('Senha:')
+  if account.pw ~= pw then
+    print('Senha inválida.')
+    return
+  end
+
+  io_account(account)
 end
 
 
@@ -115,25 +126,18 @@ function io_deposit (accounts)
   local account_num = tonumber(prompt('Numero da conta: '))
 
   local account = accounts[account_num]
-  if account ~= nil then
-    local cpf = prompt('CPF do favorecido: ')
-
-    if account.cpf == cpf then
-      local amount = tonumber(prompt('Valor do depósito: '))
-      if amount is nil then
-        print('O valor deve ser numérico.')
-      elseif amount > 0 then
-        account.balance = account.balance + amount
-        print('Depósito realizado.')
-      else
-        print('O valor deve ser positivo.')
-      end
-    else
-      print('CPF inválido.')
-    end
-  else
+  if account == nil then
     print('Conta não existe.')
+    return
   end
+
+  local cpf = prompt('CPF do favorecido: ')
+  if account.cpf ~= cpf then
+    print('CPF inválido.')
+    return
+  end
+
+  io_account_deposit(account)
 end
 
 
@@ -177,7 +181,6 @@ function main()
     print('N) Abrir nova conta')
     print('X) Sair')
     local option = prompt('Selecione uma das opções: '):upper()
-    local option = io_menu()
     if option == 'A' then
       io_access_account(accounts)
     elseif option == 'D' then
