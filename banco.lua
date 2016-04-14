@@ -22,14 +22,28 @@ end
 
 function io_account_deposit(account)
   local amount = tonumber(prompt('Valor do depósito: '))
-  account.balance = account.balance + amount
-  print('Depósito realizado.')
+
+  if amount is nil then
+    print('O valor deve ser numérico.')
+  elseif amount > 0 then
+    account.balance = account.balance + amount
+    print('Depósito realizado.')
+  else
+    print('O valor deve ser positivo.')
+  end
 end
 
 function io_account_withdraw(account)
   local amount = tonumber(prompt('Valor do saque: '))
-  account.balance = account.balance - amount
-  print('Saque realizado.')
+
+  if amount is nil then
+    print('O valor deve ser numérico.')
+  elseif amount > 0 then
+    account.balance = account.balance - amount
+    print('Saque realizado.')
+  else
+    print('O valor deve ser positivo.')
+  end
 end
 
 
@@ -88,7 +102,14 @@ function io_deposit (accounts)
 
     if account.cpf == cpf then
       local amount = tonumber(prompt('Valor do depósito: '))
-      account.balance = account.balance + amount
+      if amount is nil then
+        print('O valor deve ser numérico.')
+      elseif amount > 0 then
+        account.balance = account.balance + amount
+        print('Depósito realizado.')
+      else
+        print('O valor deve ser positivo.')
+      end
     else
       print('CPF inválido.')
     end
