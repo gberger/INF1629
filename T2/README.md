@@ -1,5 +1,5 @@
 [Guilherme Berger](https://github.com/gberger) - 1210518
-[Bernardo Alkmim](https://github.com/Bpalkmim) - {matricula}
+[Bernardo Alkmim](https://github.com/Bpalkmim) - 1210514
 
 # Princípios de Engenharia de Software - Trabalho 2
 
@@ -14,7 +14,6 @@ do nosso curso.
 * 5, Candy Factory -- Bernardo
 * 7, Infinite Mirror -- Guilherme
 * 8, Kick Your Teammate Forward -- Bernardo
-* 20, Constructivist -- Bernardo
 * 27, Lazy Rivers -- Guilherme
 * 30, Inverse Multiplexer (Map/Reduce) -- Guilherme
 
@@ -30,4 +29,9 @@ do nosso curso.
    
 ## Livro Diário - Bernardo
 
-* 
+* 27/04/2016: leitura geral do livro
+* 29/04/2016: escolha dos estilos
+* 01/05/2016: estudo dos estilos escolhidos
+* 02/05/2016: desenvolvimento no estilo Candy Factory
+* 03/05/2016: desenvolvimento no estilo Kick Your Teammates Forward
+* 04/05/2016: adequação dos programas aos princípios de ES
